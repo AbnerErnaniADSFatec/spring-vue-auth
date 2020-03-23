@@ -7,5 +7,5 @@
 
 Sistema de autenticação de usuário usando como back-end Spring Boot e no frontend Vue JS:
 
-- [Front-end VueJS](./) para a interação com a API;
+- [Front-end VueJS](./front-end/) para a interação com a API;
 - [Back-end Spring Boot](./api-auth/) como API para o controle de usuários;
