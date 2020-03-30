@@ -30,5 +30,5 @@ $ createdb -h 0.0.0.0 -p 5480 -U postgres db_users "Dados para o controle de usu
 $ sudo chmod 777 -R /home/abner/spring-vue-auth/api-auth/db
 
 ## Criação do usuario Postgres para a API e migração dos dados em csv
-$ psql -h 0.0.0.0 -p 5480 -U postgres -d db_users -f create_tables.sql
+$ psql -h 0.0.0.0 -p 5480 -U postgres -d db_users -f create-tables.sql
 ```
