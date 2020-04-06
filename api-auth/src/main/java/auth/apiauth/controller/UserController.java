@@ -24,7 +24,7 @@ import auth.apiauth.services.UserServiceImpl;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
-@RequestMapping(value = "/auth")
+@RequestMapping(value = "/api_auth")
 public class UserController {
 
 	@Autowired
@@ -34,8 +34,45 @@ public class UserController {
 		this.service = service;
 	}
 
-	@RequestMapping(value = "/users", method = RequestMethod.GET, produces = "application/json")
-	public List<User> users() {
-		return service.findAll();
+	@RequestMapping(value = "/list_users", method = RequestMethod.GET, produces = "application/json")
+	public List<User> list_users() {
+		return service.list();
+	}
+
+	@RequestMapping(value = "/find_by_name", method = RequestMethod.GET, produces = "application/json")
+	public User find_by_name(String user_name) {
+		return service.findOneByName(user_name);
+	}
+
+	@RequestMapping(value = "/find_by_code", method = RequestMethod.GET, produces = "application/json")
+	public User find_by_code(Long code) {
+		return service.findOneByCode(code);
+	}
+
+	@RequestMapping(value = "/add_user", method = RequestMethod.GET, produces = "application/json")
+	public User add_user(Long code) {
+		if (service.add(new User())) {
+			return new User();
+		} else {
+			return new User();
+		}
+	}
+
+	@RequestMapping(value = "/remove_user", method = RequestMethod.GET, produces = "application/json")
+	public User remove_user(Long code) {
+		if (service.remove(new User())) {
+			return new User();
+		} else {
+			return new User();
+		}
+	}
+
+	@RequestMapping(value = "/user_exists", method = RequestMethod.GET, produces = "application/json")
+	public User user_exists(Long code) {
+		if (service.exists(new User())) {
+			return new User();
+		} else {
+			return new User();
+		}
 	}
 }
