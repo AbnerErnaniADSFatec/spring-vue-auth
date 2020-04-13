@@ -19,12 +19,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findOneByName(String name) {
-        return ((List<User>) repository.findAll()).get(0);
+        List<User> result = (List<User>) repository.findOneByName(name);
+        return result.get(0);
     }
 
     @Override
     public User findOneByCode(Long codigo) {
-        return ((List<User>) repository.findAll()).get(0);
+        List<User> result = (List<User>) repository.findOneByCode(codigo);
+        return result.get(0);
     }
 
     @Override
