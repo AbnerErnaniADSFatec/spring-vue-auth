@@ -3,6 +3,7 @@ package auth.apiauth.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.ArrayList;
 
 import auth.apiauth.model.User;
 import auth.apiauth.model.UserRepository;
@@ -14,33 +15,65 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> list() {
-        return (List<User>) repository.findAll();
+        try {
+            return (List<User>) this.repository.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<User>();
+        }
     }
 
     @Override
     public User findOneByName(String name) {
-        List<User> result = (List<User>) repository.findOneByName(name);
-        return result.get(0);
+        try {
+            List<User> result = (List<User>) this.repository.findOneByName(name.toLowerCase());
+            return result.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new User();
+        }
     }
 
     @Override
     public User findOneByCode(Long codigo) {
-        List<User> result = (List<User>) repository.findOneByCode(codigo);
-        return result.get(0);
+        try {
+            List<User> result = (List<User>) this.repository.findOneByCode(codigo);
+            return result.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new User();
+        }
     }
 
     @Override
     public boolean remove(User user) {
-        return true;
+        try {
+            this.repository.delete(user);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean add(User user) {
-        return true;
+        try {
+            this.repository.save(user);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean exists(User user) {
-        return true;
+        try {
+            return this.repository.existsById(user.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
