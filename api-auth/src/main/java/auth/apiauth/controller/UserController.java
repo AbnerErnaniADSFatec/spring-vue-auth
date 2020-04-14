@@ -2,6 +2,7 @@ package auth.apiauth.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +14,7 @@ import auth.apiauth.model.User;
 import auth.apiauth.services.UserServiceImpl;
 
 @RestController
-@RequestMapping(value = "/api_auth")
+@RequestMapping(value = "api-auth/users")
 public class UserController {
 
 	@Autowired
@@ -23,10 +24,10 @@ public class UserController {
 		this.service = service;
 	}
 
-	@RequestMapping(value = "/list_users", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
 	public List<User> list_users(String name) {
 		try {
-			return service.list();
+			return this.service.list();
 		}  catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Users list not found can not connect", e);
 	   	}
@@ -35,7 +36,7 @@ public class UserController {
 	@RequestMapping(value = "/find_by_name", method = RequestMethod.GET, produces = "application/json")
 	public User find_by_name(String user_name) {
 		try {
-			return service.findOneByName(user_name);
+			return this.service.findOneByName(user_name);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found", e);
 	   	}
@@ -44,48 +45,51 @@ public class UserController {
 	@RequestMapping(value = "/find_by_code", method = RequestMethod.GET, produces = "application/json")
 	public User find_by_code(Long code) {
 		try {
-			return service.findOneByCode(code);
+			return this.service.findOneByCode(code);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", e);
 	   	}
 	}
 
-	@RequestMapping(value = "/add_user", method = RequestMethod.GET, produces = "application/json")
-	public User add_user(Long code) {
-		if (service.add(new User())) {
-			try {
-				return new User();
-			} catch (Exception e) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User can not be created", e);
-			}
-		} else {
-			return new User();
-		}
-	}
-
-	@RequestMapping(value = "/remove_user", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/remove", method = RequestMethod.DELETE, produces = "application/json")
 	public User remove_user(Long code) {
-		if (service.remove(new User())) {
-			try {
+		try {
+			User usr = (User) this.service.findOneByCode(code);
+			if (this.service.remove(usr)) {
+				return usr;
+			} else {
 				return new User();
-			} catch (Exception e) {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User can not be deleted", e);
 			}
-		} else {
-			return new User();
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User can not be deleted", e);
 		}
 	}
 
-	@RequestMapping(value = "/user_exists", method = RequestMethod.GET, produces = "application/json")
-	public User user_exists(Long code) {
-		if (service.exists(new User())) {
-			try {
+	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
+	public User add_user(@RequestBody User user) {
+		try {
+			User usr = (User) user;
+			if (this.service.add(usr)) {
+				return usr;
+			} else {
 				return new User();
-			} catch (Exception e) {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Connection refused", e);
 			}
-		} else {
-			return new User();
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User can not be created", e);
+		}
+	}
+
+	@RequestMapping(value = "/exists", method = RequestMethod.GET, produces = "application/json")
+	public User user_exists(String name) {
+		try {
+			User usr = (User) this.service.findOneByName(name);
+			if (this.service.exists(usr)) {
+				return usr;
+			} else {
+				return new User();
+			}
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Connection refused", e);
 		}
 	}
 }
