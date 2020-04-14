@@ -13,7 +13,7 @@ import auth.apiauth.model.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    @Query("select u from User u where u.nome like :nome%")
+    @Query("select u from User u where lower(u.nome) like %:nome%")
     public List<User> findOneByName(@Param("nome") String nome);
 
     @Query("select u from User u where u.codigo = :codigo")
