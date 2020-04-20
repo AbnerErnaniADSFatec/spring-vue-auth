@@ -2,6 +2,7 @@ package auth.apiauth.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +25,7 @@ public class UserController {
 		this.service = service;
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
 	public List<User> list_users(String name) {
 		try {
@@ -33,6 +35,7 @@ public class UserController {
 	   	}
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/find_by_name", method = RequestMethod.GET, produces = "application/json")
 	public User find_by_name(String user_name) {
 		try {
@@ -42,6 +45,7 @@ public class UserController {
 	   	}
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/find_by_code", method = RequestMethod.GET, produces = "application/json")
 	public User find_by_code(Long code) {
 		try {
@@ -51,6 +55,7 @@ public class UserController {
 	   	}
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/remove", method = RequestMethod.DELETE, produces = "application/json")
 	public User remove_user(Long code) {
 		try {
@@ -65,6 +70,7 @@ public class UserController {
 		}
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
 	public User add_user(@RequestBody User user) {
 		try {
@@ -79,6 +85,7 @@ public class UserController {
 		}
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/exists", method = RequestMethod.GET, produces = "application/json")
 	public User user_exists(String name) {
 		try {
