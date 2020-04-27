@@ -37,7 +37,7 @@ public class UserController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/find_by_name", method = RequestMethod.GET, produces = "application/json")
-	public User find_by_name(String user_name) {
+	public List<User> find_by_name(String user_name) {
 		try {
 			return this.service.findOneByName(user_name);
 		} catch (Exception e) {

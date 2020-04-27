@@ -24,13 +24,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findOneByName(String name) {
+    public List<User> findOneByName(String name) {
         try {
-            List<User> result = (List<User>) this.repository.findOneByName(name.toLowerCase());
-            return result.get(0);
+            return (List<User>) this.repository.findOneByName(name.toLowerCase());
         } catch (Exception e) {
             e.printStackTrace();
-            return new User();
+            return new ArrayList<User>();
         }
     }
 
