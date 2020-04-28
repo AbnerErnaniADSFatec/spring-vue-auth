@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<style scoped>
+<style>
   @import './assets/styles/style.css';
 </style>
 
