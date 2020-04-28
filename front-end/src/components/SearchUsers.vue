@@ -1,20 +1,36 @@
 <template>
-  <div id = "app">
-      <p>Buscas de Usuarios
-        <input type = "text" v-model = "username">
-        <button @click = "search">Search</button>
-      </p>
-      <ul>
-        <li v-for = "(user, i) in users">
-          {{ user.nome }} - {{ user.email }}
-        </li>
-      </ul>
+  <div class = "app">
+    <div class = "form">
+      <div class = "row">
+        <div class = "col-10">
+          <div>
+            <input type = "text" v-model = "username" placeholder = "Nome de usuário...">
+          </div>
+        </div>
+        <div class = "col">
+          <button class = "button icon-only" @click = "search">
+            Buscar
+            <img src = "https://icongr.am/feather/search.svg?size=16">
+          </button>
+        </div>
+      </div>
+    </div>
+    <table id = 'users' class = "striped">
+      <thead>
+        <tr>
+          <th>User name</th>
+          <th>E-mail</th>
+        </tr>
+      </thead>
+      <tbody v-for = "(user, i) in users">
+        <tr>
+          <td>{{ user.nome }}</td>
+          <td>{{ user.email }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
-
-<style>
-  @import '../assets/styles/search-users.css';
-</style>
 
 <script>
   import axios from 'axios';
